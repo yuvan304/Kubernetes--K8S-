@@ -129,8 +129,8 @@ metadata:
    name: pod1
 spec:
   containers:
-    - image: nginx
-      name: cont1
+    - name: cont1
+      image: nginx
 
 //save&exit
 
@@ -143,4 +143,44 @@ kubectl describe pod pod1
 kubectl delete pod pod1
 
 
+DRAWBACK:
+If we delete the pod we cannot retrive
+All the load will be handled by single pod
 
+REPLICA SET:
+It will create same pod of multiple replicas
+If we delete one pod it will create automatically
+We can distribute the load also
+
+LABEL: Assing to a pod for identification.
+SELECTION: Used to identify the pod with same label
+
+REPLICA SET:
+
+apiVersion: apps/v1
+kind: ReplaceSet
+metadata:
+  labels:
+    app: swiggy
+  name: swiggy-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+      - name: cont1
+        image: nginx
+
+        
+kubectl create -f abc.yml
+
+kubectl get rs
+//replica set
+
+kubectl api-resources
