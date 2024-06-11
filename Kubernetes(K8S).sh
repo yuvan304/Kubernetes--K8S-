@@ -283,8 +283,65 @@ kubecolor get po
 example: kubecolor get rs
          kubecolor get po
 
+===========================================================================================================================================================================
 
+KOPS: which can creates the cluster automatically.
+INFRASTRUCTURE: Resources used to run our application on cloud.
+ex: EC2,VPC,ALB,,,,  .
+
+Minikube--> single node cluster
+All the pods on single node
+kOps, also known as kubernetes operations
+it is an open-source tool that helps you create, destroy, upgrade, and maintain a highly avaliable,
+production-grade kubernetes cluster
+Depending on the requirement, kOps can also provide cloud infrastructure
+kOps is mostly used in deploying AWS and GCE kubernetes clusters
+But officially, the tool only supports AWS. support for other cloud providers (such as DigitalOcean,GCP, and OpenStack) are in the beta stage.
+
+
+ADVANTAGES:
+.Automates the provisioning of AWS and GCE kubernetes clusters
+.Deploys highly avaliable kubernetes masters
+.Supports rolling cluster updates
+.Autocompletion of commads in the command line
+.Generates Terraform and CloudFoundation configurations
+.Manages clluster add-ons
+.Supports state-sync model for dry-runs and automatic idempotency
+.Create instance groups to support heterogeneous clusters
+
+ALTERNATIVES:
+AMAZON EKS, MINIKUBE, KUBEADM, RANCHER, TERRAFORM.
+
+
+
+STEP1: GIVING PERMISSIONS
+
+IAM -- > USER -- > CREATE USER -- > NAME: KOPS -- > Attach Polocies Directly -- > AdministratorAccess -- > NEXT -- > CREATE USER
+USER -- > SECURITY CREDENTIALS -- > CREATE ACCESS KEYS -- > CLI -- > CHECKBOX 
+CREATE ACCESS
+KEYS -- > DOWNLOAD
 
   
+STEP-2; INSTALL KUBECTL AND kOPS
+
+curl -LO "https://dl.k8s.io/release/$ (curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+wget https://github.com/kubernetes/kops/releases/download/v1.25.0/kops-linux-amd64
+chmod +x kops-linux-amd64 kubectl
+mv kubectl /usr/local/bin/kubectl
+mv kops-linux-amd64 /usr/local/bin/kops
+
+
+vim bashrc
+
+export PATH=$PATH:/usr/local/bin
+//add on the bottom of code
+
+source .bashrc
+//what are you add in before to run it source
+
+kops version
+kubectl version
+//check the versions
+
 
 
