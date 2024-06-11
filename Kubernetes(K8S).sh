@@ -357,5 +357,6 @@ kops create cluster --name rahams.k8s.local --zones us-east-1a --master-count=1 
 kops update cluster --name rahams.k8s.local --yes --admin
 
 
-
+.List clusters with: kops get cluster
+.Edit this cluster with: kops edit cluster rahams.k8s.local nodes
 
