@@ -113,8 +113,12 @@ kubectl get pods
 kubectl describe pod pod1
 //describe the pod
 
+
+
 kubectl delete pod pod1
 //delete
+
+
 
 kubectl get po -o wide
 //to read the info
@@ -141,6 +145,8 @@ kubectl get po
 kubectl get po -o wide
 kubectl describe pod pod1
 kubectl delete pod pod1
+kubectl delete po --all
+//irrespective of LABELS to delete all PODS
 
 
 DRAWBACK:
@@ -152,13 +158,22 @@ It will create same pod of multiple replicas
 If we delete one pod it will create automatically
 We can distribute the load also
 
+kubectl describe pod train-rs-24xvk | grep -i image
+//describe specific image
+
+kubectl delete pod -i app=train
+// delete same of rs (train)
+kubectl delete rs train -rs
+//delete all replica set
+
+
 LABEL: Assing to a pod for identification.
 SELECTION: Used to identify the pod with same label
 
 REPLICA SET:
 
 apiVersion: apps/v1
-kind: ReplaceSet
+kind: ReplicaSet
 metadata:
   labels:
     app: swiggy
@@ -180,7 +195,96 @@ spec:
         
 kubectl create -f abc.yml
 
+kubectl edit rs/train -rs
+
 kubectl get rs
 //replica set
 
 kubectl api-resources
+//which kind of object what to you need to use
+
+
+kubectl describe rs pod1-rs
+//showing the all info
+
+SCALING:
+
+kubectl scale rs/swiggy-rs --replicas=10
+//SCALE-IN: Increasing the count of pods
+
+kubectl scale rs/swiggy-rs --replicas=5
+//SCALE-OUT: Decreasing the count of pods
+
+SCALING FOLLOWS LIFO PATTERN:
+LIFO: LAST IN FIRST OUT
+the pod which is created will be deleted first automatically when we scale out.
+
+DEPLOYMENT:
+It will do all operations link rs.
+It will do roll back which cannot be done in rs.
+
+rs -- > pods
+deployment -- > rs -- > pods
+
+
+REPLICA SET: Is only create the copies of same pods and doesnot update automatically.
+DEPLOYMENT: Is update automatically. 
+--> Its creating new image and auto delete of one image sequentially.
+
+
+vim abc.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: swiggy
+  name: swiggy-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+      - name: cont1
+        image: nginx
+kubectl create -f abc.yml
+//created
+kubectl get deploy
+kubectl get rs
+kubectl get po
+kubectl describe deploy train-rs
+kubectl edit deploy train-rs
+kubectl get po
+kubectl describe po
+kubectl describe po | grep -i Image
+// it shows list of images are updated
+kubectl scale deploy/train-rs --replicas=10
+//to create 10 replicas
+kubectl get po
+kubectl scale deploy/train-rs --replicas=5
+
+
+/* 
+KUBECOLOR:
+wget https://github.com/hidetatz/kubecolor/releases/download/v0.0.25/kubecolor_0.0.25_linux_x86_64.tar.gz
+tar -zxvf kubecolor_0.0.25_linux_x86_64.tar.gz
+./kubecolor
+chmod +x kubecolor
+mv kubecolor /usr/local/bin/
+kubecolor get po
+*/
+// it used for change the output color io shows diff colors
+example: kubecolor get rs
+         kubecolor get po
+
+
+
+  
+
+
